@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Camera, Video, Palette, Film, Edit, Megaphone } from 'lucide-react';
+import { Camera, Video, Palette, Film, CreditCard as Edit, Megaphone } from 'lucide-react';
 
 const Services: React.FC = () => {
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
