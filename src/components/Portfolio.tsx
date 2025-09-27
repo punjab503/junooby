@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Filter, ExternalLink } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Filter, ExternalLink, Eye } from 'lucide-react';
 
 const Portfolio: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -86,19 +87,31 @@ const Portfolio: React.FC = () => {
   return (
     <section className="py-24 px-4 bg-slate-950">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
             Our Portfolio
           </h2>
           <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-8">
             Explore our diverse collection of creative work spanning photography, video production, and commercial projects.
           </p>
-        </div>
+        </motion.div>
 
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {filters.map((filter) => (
-            <button
+        <motion.div 
+          className="flex flex-wrap justify-center gap-4 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          {filters.map((filter, index) => (
+            <motion.button
               key={filter.id}
               onClick={() => setActiveFilter(filter.id)}
               className={`px-6 py-3 rounded-3xl font-medium transition-all duration-300 flex items-center gap-2 ${
@@ -106,62 +119,119 @@ const Portfolio: React.FC = () => {
                   ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
                   : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
               }`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <Filter className="w-4 h-4" />
               {filter.label}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredItems.map((item, index) => (
-            <div
-              key={item.id}
-              className="group relative overflow-hidden rounded-3xl bg-slate-900 transition-all duration-500 hover:scale-105 hover:shadow-2xl cursor-pointer"
-              onMouseEnter={() => setHoveredItem(item.id)}
-              onMouseLeave={() => setHoveredItem(null)}
-              style={{
-                animationDelay: `${index * 100}ms`,
-              }}
-            >
-              {/* Image */}
-              <div className="aspect-[4/3] overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-
-              {/* Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent transition-opacity duration-300 ${
-                hoveredItem === item.id ? 'opacity-90' : 'opacity-0'
-              }`} />
-
-              {/* Content */}
-              <div className={`absolute bottom-0 left-0 right-0 p-6 transform transition-all duration-300 ${
-                hoveredItem === item.id ? 'translate-y-0' : 'translate-y-4'
-              }`}>
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-xl font-bold text-white">{item.title}</h3>
-                  <ExternalLink className="w-5 h-5 text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <AnimatePresence mode="wait">
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            key={activeFilter}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {filteredItems.map((item, index) => (
+              <motion.div
+                key={item.id}
+                className="group relative overflow-hidden rounded-3xl bg-slate-900 cursor-pointer"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                onHoverStart={() => setHoveredItem(item.id)}
+                onHoverEnd={() => setHoveredItem(null)}
+                whileHover={{ scale: 1.05 }}
+                layout
+              >
+                {/* Image */}
+                <div className="aspect-[4/3] overflow-hidden">
+                  <motion.img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.6 }}
+                  />
                 </div>
-                <p className="text-slate-300 text-sm mb-3">{item.description}</p>
-                <span className="inline-block px-3 py-1 bg-blue-600/20 text-blue-400 text-xs font-medium rounded-full border border-blue-600/30">
-                  {filters.find(f => f.id === item.category)?.label}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+
+                {/* Overlay */}
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: hoveredItem === item.id ? 0.9 : 0 }}
+                  transition={{ duration: 0.3 }}
+                />
+
+                {/* Content */}
+                <motion.div 
+                  className="absolute bottom-0 left-0 right-0 p-6"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ 
+                    y: hoveredItem === item.id ? 0 : 20,
+                    opacity: hoveredItem === item.id ? 1 : 0
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                    <motion.div
+                      whileHover={{ scale: 1.2, rotate: 15 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ExternalLink className="w-5 h-5 text-blue-400" />
+                    </motion.div>
+                  </div>
+                  <p className="text-slate-300 text-sm mb-3">{item.description}</p>
+                  <span className="inline-block px-3 py-1 bg-blue-600/20 text-blue-400 text-xs font-medium rounded-full border border-blue-600/30">
+                    {filters.find(f => f.id === item.category)?.label}
+                  </span>
+                </motion.div>
+
+                {/* Floating Action Button */}
+                <motion.div
+                  className="absolute top-4 right-4"
+                  initial={{ scale: 0, rotate: -90 }}
+                  animate={{ 
+                    scale: hoveredItem === item.id ? 1 : 0,
+                    rotate: hoveredItem === item.id ? 0 : -90
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                    <Eye className="w-5 h-5 text-white" />
+                  </div>
+                </motion.div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
 
         {/* Load More Button */}
-        <div className="text-center mt-12">
-          <button className="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-3xl font-semibold transition-all duration-300 hover:scale-105 border border-slate-700 hover:border-slate-600">
+        <motion.div 
+          className="text-center mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <motion.button 
+            className="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-3xl font-semibold transition-all duration-300 border border-slate-700 hover:border-slate-600"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             Load More Projects
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </div>
     </section>
   );

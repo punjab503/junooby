@@ -1,11 +1,11 @@
-import React from 'react';
-import { Camera, Mail, Phone, MapPin, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
+      info: '+256 763 721 005',
+      subInfo: 'Mon-Fri 9AM-6PM EAT',
 
 const Footer: React.FC = () => {
   const socialLinks = [
     { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
+      info: 'Kampala, Uganda',
+      subInfo: 'East Africa\'s Creative Hub',
     { icon: Youtube, href: '#', label: 'YouTube' },
   ];
 
@@ -121,11 +121,11 @@ const Footer: React.FC = () => {
             </div>
             <div className="flex items-center space-x-3">
               <Phone className="w-5 h-5 text-emerald-400" />
-              <span className="text-slate-400">+1 (555) 123-4567</span>
+              <span className="text-slate-400">+256 763 721 005</span>
             </div>
             <div className="flex items-center space-x-3">
               <MapPin className="w-5 h-5 text-amber-400" />
-              <span className="text-slate-400">New York, NY 10001</span>
+              <span className="text-slate-400">Kampala, Uganda</span>
             </div>
           </div>
         </div>
