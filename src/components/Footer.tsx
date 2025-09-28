@@ -1,11 +1,11 @@
-      info: '+256 763 721 005',
-      subInfo: 'Mon-Fri 9AM-6PM EAT',
+import React from 'react';
+import { Camera, Instagram, Facebook, Twitter, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const socialLinks = [
     { icon: Instagram, href: '#', label: 'Instagram' },
-      info: 'Kampala, Uganda',
-      subInfo: 'East Africa\'s Creative Hub',
+    { icon: Facebook, href: '#', label: 'Facebook' },
+    { icon: Twitter, href: '#', label: 'Twitter' },
     { icon: Youtube, href: '#', label: 'YouTube' },
   ];
 
